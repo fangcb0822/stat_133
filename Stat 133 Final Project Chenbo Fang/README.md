@@ -23,7 +23,7 @@ Organization of Directories and Files
 Regarding Bonus Points
 ---
 
-- I also set up the project in [my GitHub repository](https://github.com/fangcb0822/stat_133).
+- In addition to Dropbox I also set up the project in [my GitHub repository](https://github.com/fangcb0822/stat_133).
 - I used 3 loops in total.
-- I used the function `group_by` from package __"dplyr"__.
+- I used the function `group_by` from package __"dplyr"__ in [data_analysis.R](../code/data_analysis.R).
 - I posted one of the project images on [my LinkedIn](https://www.linkedin.com/in/chuckfang).

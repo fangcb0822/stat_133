@@ -18,9 +18,12 @@ source("code/functions.R")
 # ==================================================
 
 # import and combine
-storms2_EP <- read.csv("rawdata/Basin.EP.ibtracs_wmo.v03r06.csv", skip = 2, header = T, stringsAsFactors = F)
-storms2_NA <- read.csv("rawdata/Basin.NA.ibtracs_wmo.v03r06.csv", skip = 2, header = T, stringsAsFactors = F)
-storms2 <- subset(rbind(storms2_EP, storms2_NA), Year >= 1980 & Year <= 2010)
+storms2_EP <- read.csv("rawdata/Basin.EP.ibtracs_wmo.v03r06.csv",
+                       skip = 2, header = T, stringsAsFactors = F)
+storms2_NA <- read.csv("rawdata/Basin.NA.ibtracs_wmo.v03r06.csv",
+                       skip = 2, header = T, stringsAsFactors = F)
+storms2 <- subset(rbind(storms2_EP, storms2_NA),
+                  Year >= 1980 & Year <= 2010)
 colnames(storms2) = c("serial_num",
                   "year",
                   "num",
@@ -38,7 +41,8 @@ colnames(storms2) = c("serial_num",
                   "press_pct",
                   "track_type")
 # generate variables of interest
-storms2$wind_level = cut(storms2$wind, breaks = seq(from = 0, to = 200, by = 50))
+storms2$wind_level = cut(storms2$wind,
+                         breaks = seq(from = 0, to = 200, by = 50))
 storms2$month = factor(month.name[as.numeric(substr(storms2$time, 6, 7))],
                        levels = month.name)
 storms2$decade = paste0(substr(storms2$time, 1, 3), "0s")
@@ -50,12 +54,11 @@ storms2 = with(storms2, storms2[order(serial_num, time), ])
 # ==================================================
 
 # specify limits for longitude and latitude
-long_lim = c(-130, -30)
+long_lim = c(-140, -20)
 lat_lim = c(5, 55)
 # generate map_area
 map_area = subset(map_data("world"),
                   long > long_lim[1] & long < long_lim[2] & lat > lat_lim[1] & lat < lat_lim[2])
-
 # color parameters
 bg = rgb(0, 0, 0)
 # baseline ggplot

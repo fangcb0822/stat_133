@@ -14,7 +14,7 @@ As the first part of the project, we focus on storms in the North Atlantic basin
 
 After cleaning up the raw data, we obtain two clean datasets [storms.csv](../data/storms.csv) - which record ID, start date, number of days with available position, and name for each storm - and [tracks.csv](../data/tracks.csv) - which record stage, latitude (N), longitude (E), wind speed, and surface pressure for each period of each day of each storm.
 
-With the cleaned data, we conduct the following four analyses.
+With the cleaned data, and restricting our sample to 1980-2010, we conduct the following four analyses.
 
 ### 1.1 Analysis per Year
 
@@ -50,6 +50,8 @@ t(temp_table)
 ```
 ![](../images/storms_per_year_96.png)
 
+Though not very conspicuous (and certainly not monotonic), we can observe an upward trend of the number of storms over years. Whether it is small storms or large storms, the increase is visible.
+
 ### 1.2 Analysis per Month
 
 Next, we obtain frequency tables and barplots for number of storms per month. Here we simply counts the number of unique storms in a particular month. Note that since a storm can span several months, the total number of storms aggregated over months should be greater than the total number of unique storms.
@@ -84,7 +86,7 @@ t(temp_table)
 ```
 ![](../images/storms_per_month_96.png)
 
-From the graphs we can see that not only does Autumn (August, September and October) have more storms, they also have more particularly strong storms.
+From the graphs we can see that not only does Autumn (August, September and October) see more storms, they also see a majority share of the particularly large storms.
 
 ### 1.3 Annual Avg Number of Storms
 
@@ -98,7 +100,7 @@ temp_table
 
 ### 1.4 Regression Analysis
 
-As our last analysis for Part 1, we look at the regression between surface pressure and wind speed. For each storm, we compute the mean of its surface pressure and wind speed and run regressions between the two variables. The graph below shows a scatter plot of the two variables with the regression line highlighted in red.
+As our last analysis, we look at the regression between surface pressure and wind speed. For each storm, we compute the mean of its surface pressure and wind speed. We then run regressions betweense the two variables. The graph below shows a scatter plot of the two variables with the regression line highlighted in red.
 
 After some exploration, we found that taking out storms with mean surface pressure at 0 and treating 0 surface pressure as NA yield much more significant result, and hence adopted as our assumption.
 
@@ -106,19 +108,19 @@ The graph below shows that higher mean wind speed is associated with lower mean 
 
 ![](../images/regression1.png)
 
-As a robustness check, we reproduce the analysis with the median of surface pressure and wind speed for each storm. As shown in the graph below, the result is consistent in that higher wind speed is associated with lower surface pressure.
+As a robustness check, we reproduce the analysis with the median of surface pressures and the median of wind speeds for each storm. As shown in the graph below, the result is consistent in that higher wind speed is associated with lower surface pressure.
 
 ![](../images/regression2.png)
 
 ## Part 2: East Pacific and North Atlantic Storms
 
-Part 2 of the project considers storms in both East Pacific and North Atlantic basins and focuses on the trajectories of the storms. We use the [CSV files](ftp://eclipse.ncdc.noaa.gov/pub/ibtracs/v03r06/wmo/csv/basin) from [IBTrACS Database](https://www.ncdc.noaa.gov/ibtracs/index.php?name=wmo-data) for this part of the analysis.
+Part 2 of the project considers storms in both East Pacific and North Atlantic basins and focuses on the trajectories of the storms. We use the [CSV files](ftp://eclipse.ncdc.noaa.gov/pub/ibtracs/v03r06/wmo/csv/basin) from [IBTrACS Database](https://www.ncdc.noaa.gov/ibtracs/index.php?name=wmo-data) for this part of the project.
 
 After cleaning up the data, we can produce on a map of the trajectory for each storm from the series of longitudes and latitudes.
 
-We restrict our map view to around the North America Continent, where location reference is easy to interpret. Therefore, the limits for the longitude and latitude of the map are W130 to W30, and N5 to N55.
+We restrict our map view to around the North America Continent, where location reference is easy to interpret. Therefore, the limits for the longitude and latitude of the map are W140 to W20, and N5 to N55.
 
-For each trajectory we color its different parts by the associated wind speed.
+For each trajectory we color each position by the associated wind speed.
 
 The following graphs are trajectories of storms corresponding to different attributes.
 
@@ -128,4 +130,6 @@ The following graphs are trajectories of storms corresponding to different attri
 ![](../images/trajectory_1990s.png)
 ![](../images/trajectory_2000s.png)
 
-As we can see from the graphs, trajectories of storms in the North Atlantic basin follow a general pattern of curving in towards the continent. In addition, the intensity of a storm (indicated by its wind speed) generally goes up as the storm move towards the continent and subsides as it moves away.
+As we can see from the graphs, regardless of month or decade, trajectories of storms in the North Atlantic basin follow a general pattern of curving in towards the continent. In addition, the intensity of a storm (indicated by its wind speed) generally goes up as the storm move towards the continent and subsides as it moves away.
+
+From monthly graph, we can also confirm our previous observation in Part 1 that storms concentrate around Autumn (August, September, and October).

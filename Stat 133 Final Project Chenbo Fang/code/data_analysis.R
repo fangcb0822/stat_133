@@ -36,10 +36,10 @@ source("code/functions.R")
 # Number of Storms per Year
 title <- "Number of Storms per Year"
 file_name <- "storms_per_year"
-temp_table = data.frame(table(storms[, "year"]), stringsAsFactors = F)
-colnames(temp_table) <- c("year", "freq")
+temp_table = table(storms[, "year"])
 save(temp_table, file = paste0("data/", file_name, ".Rda"))
-barplot(table(storms[, "year"]), xlab = "Year", ylab = "Number of Storms", main = title)
+barplot(temp_table,
+        xlab = "Year", ylab = "Number of Storms", main = title)
 save_plot(file_name)
 # maximum wind speed by storm
 by_id <- group_by(tracks, id)
@@ -50,13 +50,15 @@ max_wind_id <- summarise(by_id, max_wind = max(wind), year = head(year, 1))
 #
 # Number of Storms per Year with Winds >= 35, 64, 96 Knots
 for (thres in c(35, 64, 96)) {
-  title <- paste0("Number of Storms per Year\nwith Winds >= ", thres, " Knots")
+  title <- paste("Number of Storms per Year\nwith Winds >=",
+                 thres,
+                 "Knots")
   file_name <- paste("storms_per_year", thres, sep = "_")
   temp_df <- subset(max_wind_id, max_wind >= thres)
-  temp_table <- data.frame(table(temp_df[, "year"]), stringsAsFactors = F)
-  colnames(temp_table) <- c("year", "freq")
+  temp_table <- table(temp_df[, "year"])
   save(temp_table, file = paste0("data/", file_name, ".Rda"))
-  barplot(table(temp_df[, "year"]), xlab = "Year", ylab = "Number of Storms", main = title)
+  barplot(temp_table,
+          xlab = "Year", ylab = "Number of Storms", main = title)
   save_plot(file_name)
 }
 
@@ -70,20 +72,22 @@ max_wind_month_id <- summarise(by_month_id, max_wind = max(wind))
 # Number of Storms per Month
 title <- "Number of Storms per Month"
 file_name <- "storms_per_month"
-temp_table <- data.frame(table(max_wind_month_id[, "month"]), stringsAsFactors = F)
-colnames(temp_table) <- c("month", "freq")
+temp_table <- table(max_wind_month_id[, "month"])
 save(temp_table, file = paste0("data/", file_name, ".Rda"))
-barplot(table(max_wind_month_id[, "month"]), xlab = "Month", ylab = "Number of Storms", main = title)
+barplot(temp_table,
+        xlab = "Month", ylab = "Number of Storms", main = title)
 save_plot(file_name)
 # Number of Storms per Month with Winds >= 35, 64, 96 Knots
 for (thres in c(35, 64, 96)) {
-  title <- paste0("Number of Storms per Month\nwith Winds >= ", thres, " Knots")
+  title <- paste("Number of Storms per Month\nwith Winds >=",
+                 thres,
+                 "Knots")
   file_name <- paste0("storms_per_month_", thres)
   temp_df <- subset(max_wind_month_id, max_wind >= thres)
-  temp_table <- data.frame(table(temp_df[, "month"]), stringsAsFactors = F)
-  colnames(temp_table) = c("month", "freq")
+  temp_table <- table(temp_df[, "month"])
   save(temp_table, file = paste0("data/", file_name, ".Rda"), row.names = F)
-  barplot(table(temp_df$month), xlab = "Month", ylab = "Number of Storms", main = title)
+  barplot(temp_table,
+          xlab = "Month", ylab = "Number of Storms", main = title)
   save_plot(file_name)
 }
 
@@ -101,7 +105,7 @@ stats = function(vec, na.rm = T) {
              "25th" = quantile(vec, names = FALSE, na.rm = na.rm)[2],
              "50th" = median(vec, na.rm = na.rm),
              "75th" = quantile(vec, names = FALSE, na.rm = na.rm)[4])
-  return(output)
+  return(round(output, digits = 1))
 }
 # make function storms_stats() that takes a threshold wind speed and generate stats of storms with maximum wind >= that threshold
 storms_stats = function(thres) {
@@ -118,20 +122,24 @@ save(temp_table, file = paste0("data/", file_name, ".Rda"))
 # regression analysis
 # ==================================================
 
-# set 0 pressure to NA
+# set 0 surface pressure to NA
 tracks$press[tracks$press == 0] = NA
 # change wind and press to numeric format
 tracks$wind = as.numeric(tracks$wind)
 tracks$press = as.numeric(tracks$press)
-# make function reg_anal() that takes a function, the name of the function, and file name and generate the wanted regression plot
+# make function reg_anal() that takes a function, the name of the function, and file name and generate the desired regression plot
 reg_anal = function(func, func_name, file_name){
   by_id = group_by(tracks, id)
-  reg_df = subset(summarise(by_id, press = func(press), wind = func(wind)), press != 0)
+  reg_df = subset(summarise(by_id, press = func(press), wind = func(wind)),
+                  press != 0)
   lm = with(reg_df, lm(press ~ wind))
   with(reg_df, plot(press ~ wind,
                     xlab = "Wind (in knots)",
                     ylab = "Pressure",
-                    main = paste(func_name, "Pressure vs", func_name, "Wind Speed\nfor Each Storm")))
+                    main = paste(func_name,
+                                 "Pressure vs",
+                                 func_name,
+                                 "Wind Speed\nfor Each Storm")))
   abline(lm, col = rgb(1, 0 ,0))
   save_plot(file_name = file_name)
 }
