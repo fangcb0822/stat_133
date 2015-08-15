@@ -6,7 +6,7 @@ output: pdf_document
 
 In this project, we study the attributes of storms in East Pacific and North Atlantic basins.
 
-In terms of data source, we use the database [International Best Track Archive for Climate Stewardship (IBTrACS)](https://www.ncdc.noaa.gov/ibtracs/index.php?name=wmo-data).
+We use the database [International Best Track Archive for Climate Stewardship (IBTrACS)](https://www.ncdc.noaa.gov/ibtracs/index.php?name=wmo-data) as our source of data.
 
 ## Part 1: North Atlantic Storms
 

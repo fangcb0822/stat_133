@@ -1,7 +1,9 @@
 Description of the Project
 ---
 
-copy from rmd
+In this project, we study the attributes of storms in East Pacific and North Atlantic basins.
+
+We use the database [International Best Track Archive for Climate Stewardship (IBTrACS)](https://www.ncdc.noaa.gov/ibtracs/index.php?name=wmo-data) as our source of data.
 
 Author
 ---
@@ -21,6 +23,7 @@ Organization of Directories and Files
 Regarding Bonus Points
 ---
 
+- I also set up the project in [my GitHub repository](https://github.com/fangcb0822/stat_133).
 - I used 3 loops in total.
 - I used the function `group_by` from package __"dplyr"__.
-- I posed one of the project images on [my LinkedIn](https://www.linkedin.com/in/chuckfang).
+- I posted one of the project images on [my LinkedIn](https://www.linkedin.com/in/chuckfang).
